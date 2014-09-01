@@ -1,3 +1,4 @@
+#!/usr/bin/python2.7
 from lxml import etree as et
 
 """
@@ -22,8 +23,15 @@ for a in root.findall('.//audio'):
 # drop subpicture attributes
 
 for s in root.findall('.//subpicture'):
-    et.strip_attributes(s, 'present', 'id')
+    present = s.get('present')
+    et.strip_attributes(s, 'present')
+    et.strip_attributes(s, 'id')
+    if present != None and present == 'no':
+        s.getparent().remove(s)
 
+for s in root.findall('.//pgc'):
+    et.strip_attributes(s, 'next')
+    et.strip_attributes(s, 'prev')
 # fix buttons
 
 for b in root.findall('.//buttons'):
