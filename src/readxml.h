@@ -25,7 +25,8 @@ int readxml
   (
     const char *xmlfile, /* filename to read */
     const struct elemdesc *elems, /* array terminated by entry with null elemname field */
-    const struct elemattr *attrs /* array terminated by entry with null elem field */
+    const struct elemattr *attrs, /* array terminated by entry with null elem field */
+int nb_attrs
   );
   /* opens and reads an XML file according to the given element and attribute definitions. */
 

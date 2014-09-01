@@ -482,5 +482,5 @@ static struct elemattr spu_attrs[]={
 
 int spumux_parse(const char *fname)
 {
-   return readxml(fname,spu_elems,spu_attrs);
+   return readxml(fname,spu_elems,spu_attrs, sizeof(spu_attrs));
 }

@@ -207,7 +207,7 @@ static void readpalette(struct pgc *p,const char *fname)
     struct vfile h;
 
     h=varied_open(fname, O_RDONLY, "palette file");
-    
+
     /* write out colors, the hex is the 0yuv combined in one integer 00yyuuvv */
     i=strlen(fname);
     rgbf=( i>=4 && !strcasecmp(fname+i-4,".rgb") );
@@ -489,7 +489,7 @@ int main(int argc, char **argv)
         case 'O':
             delete_output_dir = true;
         /* and fallthru */
-        case 'o': 
+        case 'o':
             fbase = optarg;
         break;
 
@@ -513,13 +513,13 @@ int main(int argc, char **argv)
             hadchapter = chapters_neither; /* reset for new title */
             istitle = true;
         break;
-            
+
         case 'a':
             NOXML
             MAINDEF
             parseaudioopts(va[istitle], optarg);
         break;
-        
+
         case 'v':
             NOXML
             MAINDEF
@@ -952,7 +952,10 @@ static void menus_start()
 
 static void menus_lang(const char *lang)
   {
-    strcpy(menulang, lang);
+    if (strlen(lang) > 2)
+        strcpy(menulang, "en");
+    else
+        strcpy(menulang, lang);
       /* fixme: no check for buffer overflow! */
   } /*menus_lang*/
 
@@ -1407,5 +1410,5 @@ static int readdvdauthorxml(const char *xmlfile, const char *fb)
       {
         fbase = get_outputdir();
       } /*if*/
-    return readxml(xmlfile, elems, attrs);
+    return readxml(xmlfile, elems, attrs, sizeof(attrs));
 }
