@@ -999,7 +999,7 @@ static void writepalette(int h, const uint32_t *palette)
         wdbyte(1); // colormap
         wdbyte(16); // number of colors
         for (i = 0; i < 16; i++)
-          {  
+          {
             wdbyte(palette[i] >> 16);
             wdbyte(palette[i] >> 8);
             wdbyte(palette[i]);
@@ -1040,7 +1040,7 @@ static void writebutton(int h, const unsigned char *packhdr, const hli_t *hli)
     wdbyte(3);
     for (i = 0; i < 6; i++)
         wdlong(hli->btn_colit.btn_coli[i >> 1][i & 1]);
-    
+
     wdbyte(3); // btn_it
     wdbyte(hli->hl_gi.btn_ns);
     for (i = 0; i < hli->hl_gi.btn_ns; i++)
@@ -1062,7 +1062,7 @@ static void writebutton(int h, const unsigned char *packhdr, const hli_t *hli)
         sprintf(nm1, "%d", b->left);  wdstr(nm1);
         sprintf(nm1, "%d", b->right); wdstr(nm1);
       } /*for*/
-    
+
     if (write(h, sector, 2048) < 2048)
       {
         fprintf(stderr, "ERR:  Error %d writing data: %s\n", errno, strerror(errno));
@@ -1095,10 +1095,7 @@ static void getVobs(dvd_reader_t *dvd, const ifo_handle_t *ifo, int titleset, in
 
     vobs = DVDOpenFile(dvd, titleset, titlef ? DVD_READ_TITLE_VOBS : DVD_READ_MENU_VOBS);
     if (vobs == NULL)
-      {
-      /* error message already output */
-        exit(1);
-      } /*if*/
+        return;
 
     numsect = 0;
     totalsect = 0;
@@ -1106,7 +1103,7 @@ static void getVobs(dvd_reader_t *dvd, const ifo_handle_t *ifo, int titleset, in
         totalsect += cells[i].last_sector - cells[i].start_sector + 1;
     clkpsec = sysconf(_SC_CLK_TCK);
     start = times(&unused_tms);
-    
+
     for (i = 0; i < numcells; i++)
       {
         int h, b, plen;
@@ -1222,7 +1219,7 @@ static void getVobs(dvd_reader_t *dvd, const ifo_handle_t *ifo, int titleset, in
                   /* looks like a NAV pack */
                     pci_t p;
                     //dsi_t d;
-                    
+
                     navRead_PCI(&p, bigblock + j * DVD_VIDEO_LB_LEN + 0x2d);
                     //navRead_DSI(&d,bigblock+j*DVD_VIDEO_LB_LEN+0x407);
 
@@ -1301,7 +1298,7 @@ static void dump_dvd
   )
   {
     ifo_handle_t *ifo;
- 
+
     if (titleset < 0 || titleset > 99)
       {
         fprintf(stderr, "ERR:  Can only handle titlesets 0..99\n");
@@ -1442,7 +1439,7 @@ int main(int argc, char **argv)
     mainNode = xmlNewDocNode(myXmlDoc, NULL, (xmlChar *)"dvdauthor", NULL);
     xmlDocSetRootElement(myXmlDoc, mainNode);
     xmlNewProp(mainNode, (const xmlChar *)"allgprm", (const xmlChar *)"yes");
-      
+
     for (i = 0; i <= numtitlesets; i++)
       {
         if (i)
@@ -1466,7 +1463,7 @@ int main(int argc, char **argv)
             dump_dvd(dvd, i, 1, titlesetNode);
           } /*if*/
       } /*for*/
-     
+
     xmlSaveFormatFile("dvdauthor.xml", myXmlDoc, 1);
     xmlFreeDoc(myXmlDoc);
 
